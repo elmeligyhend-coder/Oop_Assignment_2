@@ -6,8 +6,7 @@
 class PlayerGUI : public juce::Component, 
     private juce::Timer,
     public juce::Button::Listener,
-    public juce::Slider::Listener,
-    public juce::Timer
+    public juce::Slider::Listener
 {
 public:
     PlayerGUI();
@@ -56,9 +55,9 @@ private:
     // Event handlers
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
-    void timerCallback() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
 };
+
 
 
