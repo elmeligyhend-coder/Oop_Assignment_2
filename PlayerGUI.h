@@ -1,11 +1,13 @@
 #pragma once // PlayerGUI.h
 #include <JuceHeader.h>
 #include "PlayerAudio.h"
+#include <juce_audio_utils/juce_audio_utils.h>
 
 class PlayerGUI : public juce::Component, 
     private juce::Timer,
     public juce::Button::Listener,
-    public juce::Slider::Listener
+    public juce::Slider::Listener,
+    public juce::Timer
 {
 public:
     PlayerGUI();
@@ -16,7 +18,7 @@ public:
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
     void releaseResources();
 	void paint(juce::Graphics& g) override;
-
+    void timerCallback() override;
 private:
     PlayerAudio playerAudio;
 
@@ -33,6 +35,9 @@ private:
     juce::TextButton setBButton{ "Set B" };
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
+      juce::Slider speedSlider;
+      juce::Slider progressSlider;
+    juce::Label timeLabel;
     bool userIsDragging = false;
     double pointA = 0.0;
     double pointB = 0.0;
@@ -48,3 +53,4 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
 };
+
