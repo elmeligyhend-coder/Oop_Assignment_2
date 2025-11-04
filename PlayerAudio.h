@@ -28,6 +28,7 @@ public:
     float lastGain = 0.5f;
     void switcherMute();
     void setPlaybackSpeed(double speed);
+juce::AudioThumbnail& getThumbnail() { return thumbnail; }
 private:
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
@@ -35,10 +36,10 @@ private:
     std::unique_ptr<juce::ResamplingAudioSource> resamplingSource; 
     juce::AudioThumbnailCache thumbnailCache{ 5 };  
     juce::AudioThumbnail thumbnail{ 512, formatManager, thumbnailCache };
-    juce::AudioThumbnail& getThumbnail() { return thumbnail; }
     double playbackSpeed = 1.0;
     bool looping = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 };
+
 
