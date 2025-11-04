@@ -14,6 +14,24 @@ void PlayerGUI::releaseResources()
 void PlayerGUI::paint(juce::Graphics& g)
 {
     g.fillAll(juce::Colours::darkgrey);
+	auto& thumbnail = playerAudio.getThumbnail();
+if (thumbnail.getNumChannels() == 0)
+{
+    g.setColour(juce::Colours::white);
+    g.drawFittedText("No Audio Loaded", getLocalBounds(), juce::Justification::centred, 1);
+    return;
+}
+g.setColour(juce::Colours::lightgreen);
+auto waveformArea = getLocalBounds().reduced(20).withHeight(100).withY(200);
+thumbnail.drawChannels(g, waveformArea, 0.0, thumbnail.getTotalLength(), 1.0f);
+double pos = playerAudio.getPosition();
+double length = playerAudio.getLength();
+if (length > 0.0)
+{
+    float x = waveformArea.getX() + (pos / length) * waveformArea.getWidth();
+    g.setColour(juce::Colours::yellow);
+    g.drawLine(x, waveformArea.getY(), x, waveformArea.getBottom(), 2.0f);
+  }
 }
 
 PlayerGUI::PlayerGUI()
@@ -30,7 +48,15 @@ PlayerGUI::PlayerGUI()
     volumeSlider.setValue(0.5);
     volumeSlider.addListener(this);
     addAndMakeVisible(volumeSlider);
-
+     // Speed slider
+    speedSlider.setRange(0.5, 2.0, 0.1);
+	speedSlider.setValue(1.0);
+	speedSlider.addListener(this);
+	addAndMakeVisible(speedSlider);
+	startTimerHz(30);
+  timeLabel.setColour(juce::Label::textColourId, juce::Colours::white);
+  timeLabel.setJustificationType(juce::Justification::centred);
+  addAndMakeVisible(timeLabel);
     positionSlider.setRange(0.0, 1.0, 0.1);
     positionSlider.setValue(0.0);
     positionSlider.onValueChange = [this]()
@@ -63,6 +89,8 @@ void PlayerGUI::resized()
 
     volumeSlider.setBounds(20, 100, getWidth() - 40, 30);
     positionSlider.setBounds(20, 200, getWidth() - 40, 30);
+	speedSlider.setBounds(20, 150, getWidth() - 40, 30);
+    timeLabel.setBounds(20, 180, getWidth() - 40, 20);
 }
 PlayerGUI::~PlayerGUI()
 {
@@ -139,11 +167,14 @@ void PlayerGUI::buttonClicked(juce::Button* button)
 void PlayerGUI::sliderValueChanged(juce::Slider* slider) {
         if (slider == &volumeSlider)
             playerAudio.setGain((float)slider->getValue());
+	     if (slider == &speedSlider)
+           playerAudio.setPlaybackSpeed(slider->getValue());
 }
 
 void PlayerGUI::timerCallback()
 {
     double length = playerAudio.getLength();
+	double pos = playerAudio.getPosition();
 
     if (length > 0.0)
     {
@@ -159,5 +190,20 @@ void PlayerGUI::timerCallback()
         if (pos >= pointB)
             playerAudio.setPosition(pointA);
     }
+
+	 auto formatTime = [](double seconds)
+     {
+         int mins = int(seconds) / 60;
+         int secs = int(seconds) % 60;
+         return juce::String::formatted("%02d:%02d", mins, secs);
+     };
+
+ if (length > 0)
+ {
+     timeLabel.setText(formatTime(pos) + " / " + formatTime(length), juce::dontSendNotification);
+ }
+
+ repaint();
 }
+
 
