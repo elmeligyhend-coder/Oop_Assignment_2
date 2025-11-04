@@ -37,17 +37,43 @@ if (length > 0.0)
 PlayerGUI::PlayerGUI()
 {
     // Add buttons
-    for (auto* btn : { &loadButton, &restartButton , &stopButton , &loopButton , &muteButton, &play_pauseButton, &goToStartButton , &goToEndButton , &setAButton, &setBButton
-        })
+    for (auto* btn : { &loadButton, &restartButton , &stopButton , &loopButton , &muteButton,  &setAButton, &setBButton
+        &play_pauseButton, &goToStartButton , &goToEndButton, &prevButton, &nextButton })
     {
         btn->addListener(this);
         addAndMakeVisible(btn);
     }
+	
+	// Playlist ComboBox
+	addAndMakeVisible(playListComboBox);
+	playListComboBox.onChange = [this]() {
+	    int selectedIndex = playListComboBox.getSelectedItemIndex();
+	    if (selectedIndex >= 0 && selectedIndex < playListFiles.size())
+	    {
+	        currentFileIndex = selectedIndex;
+			bool loaded = playerAudio.loadFile(playListFiles[currentFileIndex]);
+	        if (loaded)
+	        {
+	            playerAudio.start();
+	            fileInfoLabel.setText(playListFiles[currentFileIndex].getFileName(), juce::dontSendNotification);
+	        }
+	        else {
+	            fileInfoLabel.setText("Failed to load file: " + playListFiles[currentFileIndex].getFileName(), juce::dontSendNotification);
+	        }
+	    }
+	};
+
     // Volume slider
     volumeSlider.setRange(0.0, 1.0, 0.01);
     volumeSlider.setValue(0.5);
     volumeSlider.addListener(this);
     addAndMakeVisible(volumeSlider);
+
+	 // Label Information
+	fileInfoLabel.setText("No File Loaded!", juce::dontSendNotification);
+	fileInfoLabel.setJustificationType(juce::Justification::centredLeft);
+	addAndMakeVisible(fileInfoLabel);
+
      // Speed slider
     speedSlider.setRange(0.5, 2.0, 0.1);
 	speedSlider.setValue(1.0);
@@ -70,6 +96,7 @@ PlayerGUI::PlayerGUI()
 
     startTimerHz(10);
 }
+
 void PlayerGUI::resized()
 {
     int y = 20;
@@ -205,5 +232,6 @@ void PlayerGUI::timerCallback()
 
  repaint();
 }
+
 
 
