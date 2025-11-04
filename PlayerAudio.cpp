@@ -9,6 +9,7 @@ PlayerAudio::~PlayerAudio()
 void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+	resamplingSource->prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
@@ -17,6 +18,8 @@ void PlayerAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 void PlayerAudio::releaseResources()
 {
     transportSource.releaseResources();
+	 resamplingSource->releaseResources();
+     thumbnail.clear();
 }
 bool PlayerAudio::loadFile(const juce::File& file)
 {
@@ -31,7 +34,7 @@ bool PlayerAudio::loadFile(const juce::File& file)
 
             // Create new reader source
             readerSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-
+             thumbnail.setSource(new juce::FileInputSource(file)); 
             // Attach safely
             transportSource.setSource(readerSource.get(),
                 0,
@@ -49,6 +52,7 @@ void PlayerAudio::start()
 void PlayerAudio::stop()
 {
     transportSource.stop();
+	transportSource.setPosition(0);
 }
 void PlayerAudio::restart()
 {
@@ -119,3 +123,9 @@ double PlayerAudio::getLength() const
 {
     return transportSource.getLengthInSeconds();
 }
+void PlayerAudio::setPlaybackSpeed(double speed)
+{
+    playbackSpeed = juce::jlimit(0.5, 2.0, speed); 
+    resamplingSource->setResamplingRatio(playbackSpeed);
+}
+
