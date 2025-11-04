@@ -24,6 +24,9 @@ public:
     void playOrpause();
     void goToStart();
     void goToEnd();
+	void playNext(const juce::Array<juce::File>& playlistFiles, int& currentFileIndex);
+	void playPrevious(const juce::Array<juce::File>& playlistFiles, int& currentFileIndex);
+
     bool isMuted = false;
     float lastGain = 0.5f;
     void switcherMute();
@@ -41,5 +44,6 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 };
+
 
 
