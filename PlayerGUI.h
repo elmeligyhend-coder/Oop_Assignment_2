@@ -29,11 +29,15 @@ private:
     juce::TextButton loopButton{ "Loop" };
     juce::TextButton muteButton{ "Mute" };
     juce::TextButton play_pauseButton{ "Play/Pause" };
-    juce::TextButton goToStartButton{ "GoToStart |<" };
+    juce::TextButton goToStartButton{ "|< GoToStart" };
     juce::TextButton goToEndButton{ "GoToEnd >|" };
+	juce::TextButton prevButton{ "Previous" };
+	juce::TextButton nextButton{ "Next" };
     juce::TextButton setAButton{ "Set A" };
     juce::TextButton setBButton{ "Set B" };
     juce::Slider volumeSlider;
+	juce::Label fileInfoLabel;
+	juce::ComboBox playListComboBox;
     juce::Slider positionSlider;
       juce::Slider speedSlider;
       juce::Slider progressSlider;
@@ -46,6 +50,9 @@ private:
     float lastVolume = 0.5f;
     std::unique_ptr<juce::FileChooser> fileChooser;
 
+	juce::Array<juce::File> playListFiles;
+	int currentFileIndex = -1;
+
     // Event handlers
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
@@ -53,4 +60,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
 };
+
 
