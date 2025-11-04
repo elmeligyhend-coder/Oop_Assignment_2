@@ -74,14 +74,12 @@ bool PlayerAudio::isLooping() const
 }
 void PlayerAudio::playOrpause()
 {
-    static bool isPlaying = false;
-    if (isPlaying) {
-        transportSource.start();
-    }
-    else {
+    if (transportSource.isPlaying()) {
         transportSource.stop();
     }
-    isPlaying = !isPlaying;
+    else {
+        transportSource.start();
+    }
 }
 void PlayerAudio::goToStart()
 {
@@ -91,6 +89,27 @@ void PlayerAudio::goToEnd()
 {
     double length = transportSource.getLengthInSeconds();
     transportSource.setPosition(length);
+}
+void PlayerAudio::playNext(const juce::Array<juce::File>& playlistFiles, int& currentFileIndex)
+{
+    if (playlistFiles.isEmpty()) return;
+    currentFileIndex = (currentFileIndex + 1) % playlistFiles.size();
+    if (loadFile(playlistFiles[currentFileIndex]))
+    {
+        transportSource.setPosition(0.0);
+        start();
+    }
+}
+
+void PlayerAudio::playPrevious(const juce::Array<juce::File>& playlistFiles, int& currentFileIndex)
+{
+    if (playlistFiles.isEmpty()) return;
+    currentFileIndex = (currentFileIndex - 1 + playlistFiles.size()) % playlistFiles.size();
+    if (loadFile(playlistFiles[currentFileIndex]))
+    {
+        transportSource.setPosition(0.0);
+        start();
+	}
 }
 
 void PlayerAudio::switcherMute()
@@ -128,4 +147,3 @@ void PlayerAudio::setPlaybackSpeed(double speed)
     playbackSpeed = juce::jlimit(0.5, 2.0, speed); 
     resamplingSource->setResamplingRatio(playbackSpeed);
 }
-
