@@ -37,7 +37,7 @@ if (length > 0.0)
 PlayerGUI::PlayerGUI()
 {
     // Add buttons
-    for (auto* btn : { &loadButton, &restartButton , &stopButton , &loopButton , &muteButton,  &setAButton, &setBButton
+    for (auto* btn : { &loadButton, &restartButton , &stopButton , &loopButton , &muteButton,  &setAButton, &setBButton,
         &play_pauseButton, &goToStartButton , &goToEndButton, &prevButton, &nextButton })
     {
         btn->addListener(this);
@@ -314,6 +314,7 @@ void PlayerGUI::timerCallback()
 
  repaint();
 }
+
 
 
 
