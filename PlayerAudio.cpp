@@ -40,10 +40,10 @@ bool PlayerAudio::loadFile(const juce::File& file)
                 0,
                 nullptr,
                 reader->sampleRate);
-            transportSource.start();
+            return true;
         }
     }
-    return true;
+    return false;
 }
 void PlayerAudio::start()
 {
@@ -147,3 +147,4 @@ void PlayerAudio::setPlaybackSpeed(double speed)
     playbackSpeed = juce::jlimit(0.5, 2.0, speed); 
     resamplingSource->setResamplingRatio(playbackSpeed);
 }
+
