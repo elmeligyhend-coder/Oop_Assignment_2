@@ -39,6 +39,7 @@ private:
 	juce::ComboBox playListComboBox;
     juce::Slider positionSlider;
       juce::Slider speedSlider;
+       juce::Slider volumeSlider2;
       juce::Slider progressSlider;
     juce::Label timeLabel;
     bool userIsDragging = false;
@@ -58,6 +59,7 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
 };
+
 
 
 
