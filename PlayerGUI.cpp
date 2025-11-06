@@ -68,6 +68,10 @@ PlayerGUI::PlayerGUI()
     volumeSlider.setValue(0.5);
     volumeSlider.addListener(this);
     addAndMakeVisible(volumeSlider);
+	 volumeSlider2.setRange(0.0, 1.0, 0.01);
+     volumeSlider2.setValue(0.5);
+     volumeSlider2.addListener(this);
+     addAndMakeVisible(volumeSlider2);
 
 	 // Label Information
 	fileInfoLabel.setText("No File Loaded!", juce::dontSendNotification);
@@ -116,12 +120,14 @@ void PlayerGUI::resized()
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
 
-    volumeSlider.setBounds(20, 100, getWidth() - 40, 30);
-    positionSlider.setBounds(20, 200, getWidth() - 40, 30);
-	fileInfoLabel.setBounds(20, 150, getWidth() - 40, 40);
-	playListComboBox.setBounds(20, 200, getWidth() -40, 50);
-	speedSlider.setBounds(20, 150, getWidth() - 40, 30);
-    timeLabel.setBounds(20, 180, getWidth() - 40, 20);
+   volumeSlider.setBounds(20, 200, getWidth() - 40, 30);
+volumeSlider2.setBounds(10, 250, getWidth() - 40, 30);
+positionSlider.setBounds(20, 290, getWidth() - 40, 30);
+fileInfoLabel.setBounds(20, 330, getWidth() - 40, 30);
+playListComboBox.setBounds(20, 370, getWidth() - 40, 30);
+speedSlider.setBounds(20, 410, getWidth() - 40, 30);
+timeLabel.setBounds(20, 450, getWidth() - 40, 30);
+trackInfoLabel.setBounds(20, 490, getWidth() - 40, 30);
 }
 PlayerGUI::~PlayerGUI()
 {
@@ -276,6 +282,10 @@ void PlayerGUI::buttonClicked(juce::Button* button)
 void PlayerGUI::sliderValueChanged(juce::Slider* slider) {
         if (slider == &volumeSlider)
             playerAudio.setGain((float)slider->getValue());
+	else if (slider == &volumeSlider2)
+   {
+    playerAudio.setGain2((float)volumeSlider2.getValue());
+    }
 	     if (slider == &speedSlider)
            playerAudio.setPlaybackSpeed(slider->getValue());
 }
@@ -314,6 +324,7 @@ void PlayerGUI::timerCallback()
 
  repaint();
 }
+
 
 
 
