@@ -34,13 +34,15 @@ private:
 	juce::TextButton nextButton{ "Next" };
     juce::TextButton setAButton{ "Set A" };
     juce::TextButton setBButton{ "Set B" };
+    juce::TextButton markerButton{ "Add Marker" };
+    juce::TextButton clearMarkerButton{ "Clear Markers" };
     juce::Slider volumeSlider;
 	juce::Label fileInfoLabel;
 	juce::ComboBox playListComboBox;
     juce::Slider positionSlider;
-      juce::Slider speedSlider;
-       juce::Slider volumeSlider2;
-      juce::Slider progressSlider;
+    juce::Slider speedSlider;
+    juce::Slider volumeSlider2;
+    juce::Slider progressSlider;
     juce::Label timeLabel;
     bool userIsDragging = false;
     double pointA = 0.0;
@@ -49,7 +51,7 @@ private:
     bool isMuted = false;
     float lastVolume = 0.5f;
     std::unique_ptr<juce::FileChooser> fileChooser;
-
+    std::vector<double> markerPositions;
 	juce::Array<juce::File> playListFiles;
 	int currentFileIndex = -1;
 
@@ -59,6 +61,7 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)
 };
+
 
 
 
