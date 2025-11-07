@@ -4,7 +4,8 @@ MainComponent::MainComponent()
 {
     
     addAndMakeVisible(player1);
-    setSize(500, 250);
+    addAndMakeVisible(player2);
+    setSize(600, 400);
     setAudioChannels(0, 2);
 }
 
@@ -16,16 +17,18 @@ MainComponent::~MainComponent()
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     player1.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    player2.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
-    player1.getNextAudioBlock(bufferToFill);
+     player2.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
 {
     player1.releaseResources();
+    player2.releaseResources();
 }
 
 void MainComponent::paint(juce::Graphics& g)
@@ -34,8 +37,12 @@ void MainComponent::paint(juce::Graphics& g)
 }
 void MainComponent::resized()
 {
-    player1.setBounds(getLocalBounds());
+    auto area = getLocalBounds();
+    auto leftHalf = area.removeFromLeft(area.getWidth() / 2);
+    player1.setBounds(leftHalf.reduced(10));
+    player2.setBounds(area.reduced(10));
 }
+
 
 
 
