@@ -18,6 +18,7 @@ public:
     void paint(juce::Graphics& g) override;
 private:
     PlayerGUI player1;
-
+    PlayerGUI player2
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
+
