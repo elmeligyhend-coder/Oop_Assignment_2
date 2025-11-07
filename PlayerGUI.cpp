@@ -38,7 +38,7 @@ PlayerGUI::PlayerGUI()
 {
     // Add buttons
     for (auto* btn : { &loadButton, &restartButton , &stopButton , &loopButton , &muteButton,  &setAButton, &setBButton,
-        &play_pauseButton, &goToStartButton , &goToEndButton, &prevButton, &nextButton })
+        &play_pauseButton, &goToStartButton , &goToEndButton, &prevButton, &nextButton , &markerButton , &clearMarkerButton })
     {
         btn->addListener(this);
         addAndMakeVisible(btn);
@@ -109,25 +109,27 @@ void PlayerGUI::resized()
     stopButton.setBounds(240, y, 80, 40);
     loopButton.setBounds(340, y, 80, 40);
     muteButton.setBounds(440, y, 80, 40);
-    goToStartButton.setBounds(540, y, 100, 40);
-    goToEndButton.setBounds(640, y, 100, 40);
-    play_pauseButton.setBounds(780, y, 100, 40);
-	prevButton.setBounds(900, y, 80, 40);
-	nextButton.setBounds(990, y, 80, 40);
-    setAButton.setBounds(20, 250, 100, 40);
-    setBButton.setBounds(140, 250, 100, 40);
+    goToStartButton.setBounds(20, 80, 100, 40);
+    goToEndButton.setBounds(140, 80, 100, 40);
+    play_pauseButton.setBounds(260, 80, 100, 40);
+    setAButton.setBounds(380, 80, 100, 40);
+    setBButton.setBounds(500, 80, 100, 40);
+    prevButton.setBounds(20, 140, 80, 40);
+    nextButton.setBounds(120, 140, 80, 40);
+    clearMarkerButton.setBounds(220, 140, 100, 40);
+    markerButton.setBounds(20, 200, 100, 40);
 
     /*prevButton.setBounds(340, y, 80, 40);
     nextButton.setBounds(440, y, 80, 40);*/
 
-   volumeSlider.setBounds(20, 200, getWidth() - 40, 30);
-volumeSlider2.setBounds(10, 250, getWidth() - 40, 30);
-positionSlider.setBounds(20, 290, getWidth() - 40, 30);
-fileInfoLabel.setBounds(20, 330, getWidth() - 40, 30);
-playListComboBox.setBounds(20, 370, getWidth() - 40, 30);
-speedSlider.setBounds(20, 410, getWidth() - 40, 30);
-timeLabel.setBounds(20, 450, getWidth() - 40, 30);
-trackInfoLabel.setBounds(20, 490, getWidth() - 40, 30);
+    volumeSlider.setBounds(20, 260, getWidth() - 40, 30);
+    volumeSlider2.setBounds(20, 310, getWidth() - 40, 30);
+    speedSlider.setBounds(20, 360, getWidth() - 40, 30);
+    positionSlider.setBounds(20, 420, getWidth() - 40, 30);
+    timeLabel.setBounds(20, 620, getWidth() - 40, 20);
+    fileInfoLabel.setBounds(20, 600, getWidth() - 40, 40);
+    playListComboBox.setBounds(20, 650, getWidth() - 40, 50);
+    trackInfoLabel.setBounds(20, 490, getWidth() - 40, 30);
 }
 PlayerGUI::~PlayerGUI()
 {
@@ -324,6 +326,7 @@ void PlayerGUI::timerCallback()
 
  repaint();
 }
+
 
 
 
