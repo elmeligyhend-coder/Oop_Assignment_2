@@ -22,7 +22,7 @@ if (thumbnail.getNumChannels() == 0)
     return;
 }
 g.setColour(juce::Colours::lightgreen);
-auto waveformArea = getLocalBounds().reduced(20).withHeight(100).withY(500);
+auto waveformArea = getLocalBounds().reduced(20).withHeight(100).withY(460);
 thumbnail.drawChannels(g, waveformArea, 0.0, thumbnail.getTotalLength(), 1.0f);
 double pos = playerAudio.getPosition();
 double length = playerAudio.getLength();
@@ -126,9 +126,9 @@ void PlayerGUI::resized()
     volumeSlider2.setBounds(20, 310, getWidth() - 40, 30);
     speedSlider.setBounds(20, 360, getWidth() - 40, 30);
     positionSlider.setBounds(20, 420, getWidth() - 40, 30);
-    timeLabel.setBounds(20, 620, getWidth() - 40, 20);
-    fileInfoLabel.setBounds(20, 600, getWidth() - 40, 40);
-    playListComboBox.setBounds(20, 650, getWidth() - 40, 50);
+    timeLabel.setBounds(20, 570, getWidth() - 40, 20);
+    fileInfoLabel.setBounds(20, 580, getWidth() - 40, 40);
+    playListComboBox.setBounds(20, 620, getWidth() - 40, 50);
     trackInfoLabel.setBounds(20, 490, getWidth() - 40, 30);
 }
 PlayerGUI::~PlayerGUI()
@@ -326,6 +326,7 @@ void PlayerGUI::timerCallback()
 
  repaint();
 }
+
 
 
 
