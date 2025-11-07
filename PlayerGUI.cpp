@@ -22,7 +22,7 @@ if (thumbnail.getNumChannels() == 0)
     return;
 }
 g.setColour(juce::Colours::lightgreen);
-auto waveformArea = getLocalBounds().reduced(20).withHeight(100).withY(200);
+auto waveformArea = getLocalBounds().reduced(20).withHeight(100).withY(500);
 thumbnail.drawChannels(g, waveformArea, 0.0, thumbnail.getTotalLength(), 1.0f);
 double pos = playerAudio.getPosition();
 double length = playerAudio.getLength();
@@ -326,6 +326,7 @@ void PlayerGUI::timerCallback()
 
  repaint();
 }
+
 
 
 
